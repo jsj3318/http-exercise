@@ -30,10 +30,12 @@ public class SimpleHttpServer {
             HttpRequestHandler httpRequestHandlerB = new HttpRequestHandler();
 
             //TODO#9threadA를 생성하고 시작 합니다.
-
+            Thread threadA = new Thread(httpRequestHandlerA);
+            threadA.start();
 
             //TODO#10threadB를 생성하고 시작 합니다.
-
+            Thread threadB = new Thread(httpRequestHandlerB);
+            threadB.start();
 
             long count = 0;
 
@@ -42,6 +44,11 @@ public class SimpleHttpServer {
                 /*TODO#O11 count값이 짝수이면 httpRequestHandlerA에 client를 추가 합니다.
                            count값이 홀수라면 httpRequestHandlerB에 clinet를 추가 합니다.
                 */
+                if(count % 2 == 0) {//짝수
+                    httpRequestHandlerA.addRequest(client);
+                }else{
+                    httpRequestHandlerB.addRequest(client);
+                }
 
                 count++;
             }
