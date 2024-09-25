@@ -33,13 +33,62 @@ public class HttpRequestHandler implements Runnable {
     public void run() {
 
         //TODO#4 simple-http-server-step1을 참고 하여 구현 합니다.
-        /*
+
+        StringBuilder requestBuilder = new StringBuilder();
+        while(true){
+            try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()))
+            ){
+                log.debug("-----HTTP-REQUEST_start()");
+                while(true){
+                    String line = bufferedReader.readLine();
+                    requestBuilder.append(line);
+                    log.debug("{}", line);
+                    if(line == null || line.isEmpty()){
+                        break;
+                    }
+                }
+                log.debug("-----HTTP-REQUEST_end()");
+                StringBuilder responseBody = new StringBuilder();
+                 /*
             <html>
                 <body>
                     <h1>hello java</h1>
                 </body>
             </html>
-        */
+                */
+                responseBody.append("<html>")
+                        .append("<body>")
+                        .append("<h1>hello vaja</h1>")
+                        .append("</body>")
+                        .append("</html>");
+
+                StringBuilder responseHeader = new StringBuilder();
+                responseHeader.append("HTTP/1.0 200 OK").append(System.lineSeparator())
+                        .append("Server: HTTP server/0.1").append(System.lineSeparator())
+                        .append("Content-type: text/html; charset=UTF-8").append(System.lineSeparator())
+                        .append("Connection: Closed").append(System.lineSeparator())
+                        .append("Content-Length: ").append(responseBody.length()).append(System.lineSeparator());
+
+                bufferedWriter.write(responseHeader + System.lineSeparator());
+                bufferedWriter.write(responseBody.toString());
+                bufferedWriter.flush();
+
+                log.debug("header:{}", responseHeader);
+                log.debug("body:{}", responseBody);
+
+
+            }catch (IOException e){
+                log.error("{}",e);
+            }finally {
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
 
     }
 }
