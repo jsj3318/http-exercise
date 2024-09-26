@@ -24,7 +24,11 @@ public class CounterUtils {
         /*TODO#7 context에 등록된 CONTEXT_COUNTER_NAME 값을 +1 증가시키고 증가된 값을 반환 합니다.
         * context에 증가된 값을 저장 합니다.
         * */
+        Context context = ContextHolder.getApplicationContext();
+        long count = (long)context.getAttribute(CONTEXT_COUNTER_NAME);
+        count++;
+        context.setAttribute(CONTEXT_COUNTER_NAME, count);
 
-        return 0l;
+        return count;
     }
 }

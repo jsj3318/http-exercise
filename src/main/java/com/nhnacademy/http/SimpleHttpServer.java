@@ -54,11 +54,16 @@ public class SimpleHttpServer {
         * * ex)  context.setAttribute("/index.html",new IndexHttpService());
         * index.html 과 info.html을 등록 합니다.
         * */
+        Context context = ContextHolder.getApplicationContext();
+
+        context.setAttribute("/index.html", new IndexHttpService());
+        context.setAttribute("/info.html", new InfoHttpService());
 
 
 
         /*TODO#5 Counter 구현을 위해서 CounterUtils.CONTEXT_COUNTER_NAME 으로, 0l 을 context에 등록 합니다.
         *  */
+        context.setAttribute(CounterUtils.CONTEXT_COUNTER_NAME, 0l);
 
 
     }
