@@ -12,10 +12,12 @@
 
 package com.nhnacademy.http.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.*;
 import java.net.URL;
 import java.util.Objects;
-
+@Slf4j
 public class ResponseUtils {
     private ResponseUtils(){}
 
@@ -28,6 +30,7 @@ public class ResponseUtils {
         /* TODO#7 isExist를 구현합니다,
            ex) filePat=/index.html 이면 /resources/index.html이 존재하면 true, 존재하지 않다면 false를 반환 합니다.
         */
+
         URL url = ResponseUtils.class.getResource(filePath);
         return Objects.nonNull(url);
     }
@@ -42,7 +45,7 @@ public class ResponseUtils {
         /* TODO#9 tryGetBodyFromFile 구현 합니다.
          * ex) filePath = /index.html -> /resources/index.html 파일을 읽어서 반환 합니다.
          * */
-
+        log.debug(filePath);
         StringBuilder responseBody = new StringBuilder();
         try(InputStream inputStream = ResponseUtils.class.getResourceAsStream(filePath);
             BufferedReader reader =  new BufferedReader(new InputStreamReader(inputStream,"UTF-8"))){

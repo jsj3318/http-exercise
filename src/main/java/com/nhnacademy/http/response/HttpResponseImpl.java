@@ -14,6 +14,7 @@ package com.nhnacademy.http.response;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
@@ -23,7 +24,8 @@ public class HttpResponseImpl implements HttpResponse {
     //TODO#4 HttpResponse를 구현 합니다.
 
     private final Socket socket;
-
+    //ISO-8859-1
+    private String charset = "UTF-8";
 
     public HttpResponseImpl(Socket socket){
         this.socket = socket;
@@ -31,16 +33,16 @@ public class HttpResponseImpl implements HttpResponse {
     
     @Override
     public PrintWriter getWriter() throws IOException {
-        return null;
+        return new PrintWriter(new DataOutputStream(socket.getOutputStream()), false, Charset.forName(charset));
     }
 
     @Override
     public void setCharacterEncoding(String charset) {
-
+        this.charset = charset;
     }
 
     @Override
     public String getCharacterEncoding() {
-        return null;
+        return charset;
     }
 }

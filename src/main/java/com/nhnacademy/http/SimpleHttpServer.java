@@ -54,7 +54,7 @@ public class SimpleHttpServer {
             while(true){
                 Socket client = serverSocket.accept();
                 //TODO#13 Queue(requestChannel)에 HttpJob 객체를 배치 합니다.
-                
+                requestChannel.addHttpJob(new HttpJob(client));
             }
         }catch (IOException e){
             log.error("server error:{}",e);
