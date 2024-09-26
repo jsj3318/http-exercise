@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -25,6 +26,11 @@ public class HttpRequestImpl implements HttpRequest {
     */
 
     private final Socket client;
+    private HashMap<String, String> headerMap = new HashMap<>();
+    private HashMap<String, Object> attributeMap = new HashMap<>();
+
+    private final String key_method = "method";
+
 
     public HttpRequestImpl(Socket socket) {
         this.client = socket;
@@ -33,12 +39,12 @@ public class HttpRequestImpl implements HttpRequest {
 
     @Override
     public String getMethod() {
-        return null;
+        return headerMap.get(key_method);
     }
 
     @Override
     public String getParameter(String name) {
-        return null;
+        return headerMap.get(name);
     }
 
     @Override

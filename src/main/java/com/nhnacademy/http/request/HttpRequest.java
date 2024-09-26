@@ -19,7 +19,7 @@ public interface HttpRequest {
     //GET, POST, ....
     String getMethod();
 
-    //?page=1&sort=age, ex) getParameter("sort") , return age
+    // page=1&sort=age, ex) getParameter("sort") , return age
     String getParameter(String name);
 
     // paramter를 map 형태로 반환합니다.
