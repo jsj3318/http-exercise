@@ -39,6 +39,41 @@ public class InfoHttpService implements HttpService {
     @Override
     public void doGet(HttpRequest httpRequest, HttpResponse httpResponse) {
         //doGet 구현
+        //Body-설정
+        String responseBody = null;
+
+        try {
+            responseBody = ResponseUtils.tryGetBodyFormFile(httpRequest.getRequestURI());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //인자 치환
+        String id = httpRequest.getParameter("id");
+        String name = httpRequest.getParameter("name");
+        name = URLDecoder.decode(name, StandardCharsets.UTF_8);
+        String age = httpRequest.getParameter("age");
+        log.debug("id:{}",id);
+        log.debug("name:{}",name);
+        log.debug("age:{}",age);
+
+        responseBody = responseBody.replace("${id}", id);
+        responseBody = responseBody.replace("${name}", name);
+        responseBody = responseBody.replace("${age}", age);
+
+
+        //Header-설정
+        String responseHeader = ResponseUtils.createResponseHeader(200,"UTF-8",responseBody.length());
+
+        //PrintWriter 응답
+        try(PrintWriter bufferedWriter = httpResponse.getWriter();){
+            bufferedWriter.write(responseHeader);
+            bufferedWriter.write(responseBody);
+            bufferedWriter.flush();
+            log.debug("body:{}",responseBody.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
